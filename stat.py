@@ -154,29 +154,31 @@ def get_prs(base_url, pkg):
         return
     return pr
 
-def get_pr(response_json):
+def get_pr(prs):
     """Checks for open PR with tests.
 
     Parameters
     ----------
-    response_json : json
-        Info about PR.
+    prs : json
+        Info about pull requests.
 
     Returns
     -------
     json
         {'user': <username>, 'url': <pull_req_url>}
     """
-    if response_json['total_requests'] <= 0:
+    if not isinstance(prs, dict) or  'total_requests' not in prs:
+        print2("Bad call to get_pr() with arg: %s" % pprint.pformat(prs))
         return
-    for request in response_json['requests']:
+    if prs['total_requests'] <= 0:
+        return
+    for request in prs['requests']:
         try:
             if ('test' in request['title']) and (request['status'] == 'Open'):
                 pull_req_url = DIST_GIT_URL + request['project']['url_path'] + '/pull-requests'
                 return {'user': request['user'], 'url': pull_req_url}
         except (KeyError, TypeError):
             print('Exception for %s' % request)
-
 
 def get_projects_url_patches(json_response):
     """Get projects url patches.
