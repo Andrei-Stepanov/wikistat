@@ -23,21 +23,18 @@ spec:
               source /tmp/v/bin/activate
               export GIT_COMMITTER_NAME=git
               export GIT_COMMITTER_EMAIL=git@git.git
-              git clone --branch w_test https://github.com/Andrei-Stepanov/fedora-ci-stats
-              git clone https://pagure.io/standard-test-roles.git
-              echo -e '[defaults]\nroles_path=/tmp/standard-test-roles/roles' > /tmp/ansible.cfg
-              export ANSIBLE_CONFIG=/tmp/ansible.cfg
-              pushd fedora-ci-stats
+              git clone --branch master https://github.com/Andrei-Stepanov/wikistat
+              pushd wikistat
               pip install -r requirements.txt
               set -x
-              ./stat.py --wikiout page.mw --reposlist repos
-              ./stat.py --wikiout page_baseos.mw --reposlist repos_baseos
+              ./stat.py --wikipage page.mw --projects repos
+              ./stat.py --wikipage page_baseos.mw --projects repos_baseos
               cat page.mw
               cat page_baseos.mw
               #export WIKI_USER=<YOUR FEDORA FAS LOGIN>
               #export WIKI_PASS=<YOUR FEDORA FASS PASS>
-              ./publish2wiki.py --filedoc page.mw --pagepath CI/Tests/stat
-              ./publish2wiki.py --filedoc page_baseos.mw --pagepath CI/Tests/stat_hp
+              ./publish.py --filedoc page.mw --pagepath CI/Tests/stat
+              ./publish.py --filedoc page_baseos.mw --pagepath CI/Tests/stat_hp
       restartPolicy: Never
 
 # vim: et ts=2 sw=2 ai
