@@ -27,14 +27,15 @@ spec:
               pushd wikistat
               pip install -r requirements.txt
               set -x
-              ./stat.py --wikipage page.mw --projects repos
-              ./stat.py --wikipage page_baseos.mw --projects repos_baseos
+              ./stat.py --wikipage page.mw --projects repos --short
+              ./stat.py --wikipage page_baseos.mw --projects repos_baseos --short
               cat page.mw
               cat page_baseos.mw
               #export WIKI_USER=<YOUR FEDORA FAS LOGIN>
               #export WIKI_PASS=<YOUR FEDORA FASS PASS>
               ./publish.py --filedoc page.mw --pagepath CI/Tests/stat
               ./publish.py --filedoc page_baseos.mw --pagepath CI/Tests/stat_hp
+              exit 0 # Do not re-spawn this job.
       restartPolicy: Never
 
 # vim: et ts=2 sw=2 ai
