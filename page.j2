@@ -37,24 +37,24 @@ Page was updated on: {{updated}} UTC
 {% for name, package in pkgs.items() %}
 |-
 ! style="text-align:left;" scope="row" | {{package.name}}
-|{% if package.distgit.test_yml %} yes {% else %} - {% endif %} [https://src.fedoraproject.org/rpms/{{package.name}}/tree/master *]
-|{% if package.distgit.test_tags.classic %} yes {% else %} - {% endif %}
+! style="background-color:{{package.cell_color}}"|{% if package.distgit.test_yml %} yes {% else %} - {% endif %} [https://src.fedoraproject.org/rpms/{{package.name}}/tree/master *]
+! style="background-color:{{package.cell_color}}"|{% if package.distgit.test_tags.classic %} yes {% else %} - {% endif %}
 
-|{% if package.distgit.test_tags.container %} yes {% else %} - {% endif %}
+! style="background-color:{{package.cell_color}}"|{% if package.distgit.test_tags.container %} yes {% else %} - {% endif %}
 
-|{% if package.distgit.test_tags.atomic %} yes {% else %} - {% endif %}
+! style="background-color:{{package.cell_color}}"|{% if package.distgit.test_tags.atomic %} yes {% else %} - {% endif %}
 
-|{% if package.distgit.missing %} yes {% else %} - {% endif %}
+! style="background-color:{{package.cell_color}}"|{% if package.distgit.missing %} yes {% else %} - {% endif %}
 
-|{% if package.distgit.pending.status %} yes [https://src.fedoraproject.org/rpms/{{package.name}}/pull-requests *] {% else %} - {%- endif %}
+! style="background-color:{{package.cell_color}}"|{% if package.distgit.pending.status %} yes [https://src.fedoraproject.org/rpms/{{package.name}}/pull-requests *] {% else %} - {%- endif %}
 
-|{% if package.upstreamfirst.test_yml %} yes [https://upstreamfirst.fedorainfracloud.org/{{package.name}}/tree/master *] {% else %} - {%- endif %}
+! style="background-color:{{package.cell_color}}"|{% if package.upstreamfirst.test_yml %} yes [https://upstreamfirst.fedorainfracloud.org/{{package.name}}/tree/master *] {% else %} - {%- endif %}
 
-|{% if package.upstreamfirst.test_tags.classic %} yes {% else %} - {% endif %}
+! style="background-color:{{package.cell_color}}"|{% if package.upstreamfirst.test_tags.classic %} yes {% else %} - {% endif %}
 
-|{% if package.upstreamfirst.test_tags.container %} yes {% else %} - {% endif %}
+! style="background-color:{{package.cell_color}}"|{% if package.upstreamfirst.test_tags.container %} yes {% else %} - {% endif %}
 
-|{% if package.upstreamfirst.test_tags.atomic %} yes {% else %} - {% endif %}
+! style="background-color:{{package.cell_color}}"|{% if package.upstreamfirst.test_tags.atomic %} yes {% else %} - {% endif %}
 
 {% endfor %}
 {% raw %}
