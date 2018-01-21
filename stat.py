@@ -34,6 +34,7 @@ J2_WIKI_TEMPLATE = 'page.j2'
 
 # Package info schema.
 pkg_template = {'name': '',
+                'cell_color': '#ffffff',
                 'distgit': {
                     'package_url': '',
                     'test_yml': '',
@@ -357,6 +358,13 @@ def get_pkg_info(pkg):
     else:
         info['distgit']['test_yml'] = False
         info['distgit']['package_url'] = ''
+
+    # Set cell color to light-green if package is ready for porting
+    if info['upstreamfirst']['test_yml'] \
+            and not info['distgit']['pending']['status'] \
+            and not info['distgit']['test_yml']:
+        info['cell_color'] = '#7FFF00'
+
     #print4('Pkg info: %s' % pprint.pformat(info))
     ipkgs[pkg] = info
 
