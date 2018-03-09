@@ -34,7 +34,7 @@ spec:
               #export WIKI_USER=<YOUR FEDORA FAS LOGIN>
               #export WIKI_PASS=<YOUR FEDORA FASS PASS>
               ./publish.py --filedoc page.mw --pagepath CI/Tests/stat
-              ./publish.py --filedoc page_baseos.mw --pagepath CI/Tests/stat_hp
+              ./publish.py --filedoc page_baseos.mw --pagepath CI/Tests/stat_fedoraserver
               exit 0 # Do not re-spawn this job.
       restartPolicy: Never
 
