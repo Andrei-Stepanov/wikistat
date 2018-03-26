@@ -416,6 +416,7 @@ def main():
     # print("Packages information:\n%s" % pprint.pformat(ipkgs))
     if opts.purpose:
         print('Set packages list purpose to: %s' % opts.purpose)
+        global purpose
         purpose = opts.purpose
     if opts.wikipage:
         print('Dump wiki page to: %s' % opts.wikipage)
