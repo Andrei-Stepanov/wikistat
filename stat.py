@@ -46,6 +46,7 @@ pkg_template = {'name': '',
                                   'test_tags': {'classic': '', 'container': '', 'atomic': ''}}}
 
 ipkgs = dict()
+purpose = "Unknown packages list."
 
 def printl(level, string, *args, **kargs):
     msg = " " * 4 + string
@@ -383,7 +384,8 @@ def render_wpage():
     j2_env = jinja2.Environment(loader=j2_loader, trim_blocks=True)
     template = j2_env.get_template(J2_WIKI_TEMPLATE)
     template_vars = {'updated': datetime.datetime.utcnow(),
-                     'total': pkgs_stat, 'pkgs': ipkgs}
+                     'total': pkgs_stat, 'pkgs': ipkgs,
+                     'purpose' : purpose}
     return template.render(template_vars)
 
 def main():
@@ -391,6 +393,8 @@ def main():
         description='Gather stats about tests in dist-git')
     parser.add_argument("--wikipage", metavar='WFILE', default=None,
                         help="Dump output to FILE in MediaWiki format.")
+    parser.add_argument("--purpose", metavar='PURPOSE', default=None,
+                        help="Set purpose desc for wiki page..")
     parser.add_argument("--projects", metavar='PFILE', default=None,
                         required=True, help="File with repos.")
     parser.add_argument("--short", help="Proceed only first 10 repos.",
@@ -409,6 +413,9 @@ def main():
         print("Checking %s: " % pkg)
         get_pkg_info(pkg)
     # print("Packages information:\n%s" % pprint.pformat(ipkgs))
+    if opts.purpose:
+        print('Set packages list purpose to: %s' % opts.purpose)
+        purpose = opts.purpose
     if opts.wikipage:
         print('Dump wiki page to: %s' % opts.wikipage)
         page = render_wpage()

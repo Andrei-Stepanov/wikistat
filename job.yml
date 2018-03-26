@@ -27,14 +27,20 @@ spec:
               pushd wikistat
               pip install -r requirements.txt
               set -x
-              ./stat.py --wikipage page.mw --projects repos --short
-              ./stat.py --wikipage page_baseos.mw --projects repos_baseos --short
-              cat page.mw
-              cat page_baseos.mw
+              ./stat.py --wikipage page-rhel8-baseos.mw --projects repos-rhel8-baseos --purpose "RHEL 8 BaseOS"
+              ./stat.py --wikipage page-fedora-server.mw --projects repos-fedora-server --purpose "Fedora Server"
+              ./stat.py --wikipage page-fedora-atomic.mw --projects repos-fedora-atomic --purpose "Fedora Atomic"
+              echo "Contents for page-rhel8-baseos.mw:"
+              cat page-rhel8-baseos.mw
+              echo "Contents for page-fedora-server.mw:"
+              cat page-fedora-server.mw
+              echo "Contents for page-fedora-atomic.mw:"
+              cat page-fedora-atomic.mw
               #export WIKI_USER=<YOUR FEDORA FAS LOGIN>
               #export WIKI_PASS=<YOUR FEDORA FASS PASS>
-              ./publish.py --filedoc page.mw --pagepath CI/Tests/stat
-              ./publish.py --filedoc page_baseos.mw --pagepath CI/Tests/stat_fedoraserver
+              ./publish.py --filedoc page-rhel8-baseos.mw --pagepath CI/Tests/stat
+              ./publish.py --filedoc page-fedora-server.mw --pagepath CI/Tests/stat_fedoraserver
+              ./publish.py --filedoc page-fedora-atomic.mw --pagepath CI/Tests/stat_atomic
               exit 0 # Do not re-spawn this job.
       restartPolicy: Never
 
