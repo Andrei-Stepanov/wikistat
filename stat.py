@@ -403,7 +403,8 @@ def main():
     print("Read file with projects list: %s" % opts.projects)
     with open(opts.projects) as pkgs_in:
         pkgs = pkgs_in.read().splitlines()
-    for line in pkgs:
+    pkgs_dup = list(pkgs)
+    for line in pkgs_dup:
         if line.startswith('#'):
             pkgs.remove(line)
     if opts.short:
