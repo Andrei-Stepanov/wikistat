@@ -469,7 +469,6 @@ hamcrest
 haproxy
 harfbuzz
 hawtjni
-hawtjni
 hdf5
 hdparm
 hesiod
@@ -693,8 +692,6 @@ istack-commons
 jackson
 jakarta-commons-httpclient
 jansi
-jansi
-jansi-native
 jansi-native
 jansson
 jasper
@@ -964,7 +961,6 @@ libxshmfence
 libxslt
 libyaml
 libzapojit
-libzip
 libzip
 linuxptp
 lirc
@@ -1354,13 +1350,9 @@ perl-threads
 perl-version
 phodav
 php
-php
 php-pear
-php-pear
-php-pecl-apcu
 php-pecl-apcu
 php-pecl-memcache
-php-pecl-zip
 php-pecl-zip
 pidgin
 pidgin-sipe
@@ -1383,7 +1375,6 @@ poppler
 poppler-data
 popt
 postfix
-postgresql
 postgresql
 postgresql-jdbc
 postgresql-odbc
