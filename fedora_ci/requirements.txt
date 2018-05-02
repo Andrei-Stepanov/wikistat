@@ -1,0 +1,4 @@
+mwclient
+Jinja2
+ansible
+requests

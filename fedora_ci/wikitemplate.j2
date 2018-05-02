@@ -1,0 +1,70 @@
+== This page is automatically updated. Do not edit. ==
+
+Page was updated on: {{updated}} UTC.<br>
+This is a list of CI builds in the last {{delta}} since {{start_time}}.
+
+{% set cell_color = "#ffffff" %}
+{% set skip_color = "#d4ffff" %}
+{% set pass_color = "#7fff00" %}
+{% set running_color = "#f0eaea" %}
+{% set infra_error_color = "#ff0000" %}
+{% set test_error_color = "#ffe700" %}
+{% raw %}
+{| class="wikitable"
+{% endraw %}
+! style="text-align:left;" scope="col" scope="col" style="background-color:{{pass_color}}"| PASSED
+! style="text-align:left;" scope="col" scope="col" style="background-color:{{infra_error_color}}"| INFRA Failure
+! style="text-align:left;" scope="col" scope="col" style="background-color:{{test_error_color}}"| TEST Failure
+! style="text-align:left;" scope="col" scope="col" style="background-color:{{skip_color}}"| Skipped CI
+! style="text-align:left;" scope="col" scope="col" style="background-color:{{running_color}}"| Build Running
+{% raw %}
+|}
+{% endraw %}
+
+{% raw %}
+{| class="wikitable sortable"
+{% endraw %}
+! style="text-align:left;" scope="col" rowspan="1" scope="col" | Project name
+! scope="col" | Branch
+! scope="col" | Koji build
+! scope="col" | Pull Request
+{% for result in results|sort(attribute='project') %}
+{% if result.status == 0 %}
+{% set cell_color = pass_color %}
+{% endif %}
+{% if result.status == 1 %}
+{% set cell_color = infra_error_color %}
+{% endif %}
+{% if result.status == 2 %}
+{% set cell_color = test_error_color %}
+{% endif %}
+{% if result.status == 3 %}
+{% set cell_color = skip_color %}
+{% endif %}
+{% if result.status == 4 %}
+{% set cell_color = running_color %}
+{% endif %}
+|-
+| style="background-color:{{cell_color}}"| {% if result.jenkins_build_url %} [{{result.jenkins_build_url}} {{result.project}}] {% else %} {{result.project}} {% endif %}
+
+| style="background-color:{{cell_color}}"| {{result.branch}}
+
+| style="background-color:{{cell_color}}"| {% if result.task_id %} [https://koji.fedoraproject.org/koji/taskinfo?taskID={{result.task_id}} {{result.task_id}}] {% else %} - {% endif %}
+
+| style="background-color:{{cell_color}}"| {% if result.pr_id %} [https://src.fedoraproject.org/rpms/{{result.project}}/pull-request/{{result.pr_id}} ] {{result.pr_id}} {% else %} - {% endif %}
+
+{% endfor %}
+{% raw %}
+|}
+{% endraw %}
+
+<!--
+
+    https://fedoraproject.org/wiki/Help:Wiki_syntax_and_markup
+    https://www.mediawiki.org/wiki/Help:Tables
+
+    -->
+
+<!--
+     vim: ft=xml
+     -->

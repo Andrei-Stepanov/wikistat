@@ -1,0 +1,47 @@
+apiVersion: batch/v2alpha1
+kind: CronJob
+metadata:
+  name: fedoraci
+spec:
+  backoffLimit: 2
+  # At minute 11 past every 3rd hour.
+  schedule: "11 */3 * * *"
+  ConcurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            parent: "cronjobpi"
+        spec:
+          containers:
+          - name: fedoraci
+            image: python:2.7
+            command:
+                - bash
+                - -c
+                - |
+                  cd /tmp
+                  virtualenv  /tmp/v
+                  source /tmp/v/bin/activate
+                  export GIT_COMMITTER_NAME=git
+                  export GIT_COMMITTER_EMAIL=git@git.git
+                  git clone --branch master https://github.com/Andrei-Stepanov/wikistat
+                  git clone --branch master https://pagure.io/standard-test-roles.git
+                  pushd wikistat/fedora_ci
+                  pip install -r requirements.txt
+                  echo -e '[defaults]\nroles_path=/tmp/standard-test-roles/roles' > /tmp/ansible.cfg
+                  export ANSIBLE_CONFIG=/tmp/ansible.cfg
+                  ansible --version
+                  # this will produce a file result.json
+                  ./fedora_ci_monitor.py
+                  echo "Results to be uploaded:"
+                  cat result.json
+                  #export WIKI_USER=<YOUR FEDORA FAS LOGIN>
+                  #export WIKI_PASS=<YOUR FEDORA FASS PASS>
+                  ./result2wiki.py
+                  exit 0 # Do not re-spawn this job.
+          restartPolicy: Never
+
+
+# vim: et ts=2 sw=2 ai
