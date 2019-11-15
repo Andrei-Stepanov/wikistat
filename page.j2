@@ -8,7 +8,6 @@ This packages list is for: {{purpose}}
 {% endraw %}
 ! style="text-align:left;" scope="col" rowspan="2" | Package
 ! scope="col" colspan="6"| dist-git
-! scope="col" colspan="4"| upstreamfirst
 |-
 ! scope="col" | tests.yml
 ! scope="col" | classic
@@ -16,10 +15,6 @@ This packages list is for: {{purpose}}
 ! scope="col" | atomic
 ! scope="col" | missing
 ! scope="col" | pending PR
-! scope="col" | tests.yml
-! scope="col" | classic
-! scope="col" | container
-! scope="col" | atomic
 |-
 ! style="text-align:left; font-weight: lighter;" scope="row" | Total known packages
 | style="text-align:center;" scope="row" colspan="10" | {{total.total}}
@@ -31,10 +26,6 @@ This packages list is for: {{purpose}}
 |{{total.distgit.test_tags.atomic}}
 |{{total.distgit.missing}}
 |{{total.distgit.pending}}
-|{{total.upstreamfirst.test_yml}}
-|{{total.upstreamfirst.test_tags.classic}}
-|{{total.upstreamfirst.test_tags.container}}
-|{{total.upstreamfirst.test_tags.atomic}}
 {% for name, package in pkgs.items() %}
 |-
 ! style="text-align:left;" scope="row" | {{package.name}}
@@ -48,14 +39,6 @@ This packages list is for: {{purpose}}
 ! style="background-color:{{package.cell_color}}"|{% if package.distgit.missing %} yes {% else %} - {% endif %}
 
 ! style="background-color:{{package.cell_color}}"|{% if package.distgit.pending.status %} yes [https://src.fedoraproject.org/rpms/{{package.name}}/pull-requests *] {% else %} - {%- endif %}
-
-! style="background-color:{{package.cell_color}}"|{% if package.upstreamfirst.test_yml %} yes [https://upstreamfirst.fedorainfracloud.org/{{package.name}}/tree/master *] {% else %} - {%- endif %}
-
-! style="background-color:{{package.cell_color}}"|{% if package.upstreamfirst.test_tags.classic %} yes {% else %} - {% endif %}
-
-! style="background-color:{{package.cell_color}}"|{% if package.upstreamfirst.test_tags.container %} yes {% else %} - {% endif %}
-
-! style="background-color:{{package.cell_color}}"|{% if package.upstreamfirst.test_tags.atomic %} yes {% else %} - {% endif %}
 
 {% endfor %}
 {% raw %}

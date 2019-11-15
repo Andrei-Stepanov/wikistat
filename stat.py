@@ -29,7 +29,6 @@ import datetime
 import requests
 
 DIST_GIT_URL = 'https://src.fedoraproject.org/'
-UPSTREAMFIRST_URL = "https://upstreamfirst.fedorainfracloud.org/"
 J2_WIKI_TEMPLATE = 'page.j2'
 
 # Package info schema.
@@ -40,10 +39,7 @@ pkg_template = {'name': '',
                     'test_yml': '',
                     'missing': '',
                     'pending': {'status': '', 'url': '', 'user': {}},
-                    'test_tags': {'classic': '', 'container': '', 'atomic': ''}},
-                'upstreamfirst': {'test_yml': '',
-                                  'package_url': '',
-                                  'test_tags': {'classic': '', 'container': '', 'atomic': ''}}}
+                    'test_tags': {'classic': '', 'container': '', 'atomic': ''}}}
 
 ipkgs = dict()
 purpose = "Unknown packages list."
@@ -83,9 +79,8 @@ def get_pkgs_stat():
                           'test_yml': '',
                           'missing': '',
                           'pending': '',
-                          'test_tags': {'classic': '', 'container': '', 'atomic': ''}},
-                      'upstreamfirst': {'test_yml': '',
-                                        'test_tags': {'classic': '', 'container': '', 'atomic': ''}}}
+                          'test_tags': {'classic': '', 'container': '', 'atomic': ''}}}
+
     stat['total'] = len(ipkgs)
     total = pkgs_in_cat('distgit', 'test_yml')
     stat['distgit']['test_yml'] = total
@@ -99,14 +94,6 @@ def get_pkgs_stat():
     stat['distgit']['test_tags']['container'] = total
     total = pkgs_in_cat('distgit', 'test_tags', 'atomic')
     stat['distgit']['test_tags']['atomic'] = total
-    total = pkgs_in_cat('upstreamfirst', 'test_yml')
-    stat['upstreamfirst']['test_yml'] = total
-    total = pkgs_in_cat('upstreamfirst', 'test_tags', 'classic')
-    stat['upstreamfirst']['test_tags']['classic'] = total
-    total = pkgs_in_cat('upstreamfirst', 'test_tags', 'container')
-    stat['upstreamfirst']['test_tags']['container'] = total
-    total = pkgs_in_cat('upstreamfirst', 'test_tags', 'atomic')
-    stat['upstreamfirst']['test_tags']['atomic'] = total
     print1('Packages stat: %s' % pprint.pformat(stat))
     return stat
 
@@ -338,16 +325,6 @@ def get_pkg_info(pkg):
         info['distgit']['pending']['url'] = ''
         info['distgit']['pending']['user'] = ''
         info['distgit']['pending']['status'] = False
-    upstream_test_tags = handle_test_tags(UPSTREAMFIRST_URL, pkg)
-    upstream_test_tags = tags2dict(upstream_test_tags)
-    info['upstreamfirst']['test_tags'] = upstream_test_tags
-    upstream_url_to_test_yml = get_url_to_test_yml(UPSTREAMFIRST_URL, pkg)
-    if remote_file_exists(upstream_url_to_test_yml):
-        info['upstreamfirst']['test_yml'] = True
-        info['upstreamfirst']['package_url'] = upstream_url_to_test_yml
-    else:
-        info['upstreamfirst']['test_yml'] = False
-        info['upstreamfirst']['package_url'] = ''
     # Get distgit test-tags
     dist_git_test_tags = handle_test_tags(DIST_GIT_URL, pkg)
     dist_git_test_tags = tags2dict(dist_git_test_tags)
@@ -359,12 +336,6 @@ def get_pkg_info(pkg):
     else:
         info['distgit']['test_yml'] = False
         info['distgit']['package_url'] = ''
-
-    # Set cell color to light-green if package is ready for porting
-    if info['upstreamfirst']['test_yml'] \
-            and not info['distgit']['pending']['status'] \
-            and not info['distgit']['test_yml']:
-        info['cell_color'] = '#7FFF00'
 
     #print4('Pkg info: %s' % pprint.pformat(info))
     ipkgs[pkg] = info
