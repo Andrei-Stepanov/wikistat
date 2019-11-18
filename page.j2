@@ -7,9 +7,10 @@ This packages list is for: {{purpose}}
 {| class="wikitable sortable"
 {% endraw %}
 ! style="text-align:left;" scope="col" rowspan="2" | Package
-! scope="col" colspan="6"| dist-git
+! scope="col" colspan="7"| dist-git
 |-
 ! scope="col" | tests.yml
+! scope="col" | gating.yaml
 ! scope="col" | classic
 ! scope="col" | container
 ! scope="col" | atomic
@@ -21,6 +22,7 @@ This packages list is for: {{purpose}}
 |-
 ! style="text-align:left; font-weight: lighter;" scope="row" | Packages in category
 |{{total.distgit.test_yml}}
+|{{total.distgit.gating_yaml}}
 |{{total.distgit.test_tags.classic}}
 |{{total.distgit.test_tags.container}}
 |{{total.distgit.test_tags.atomic}}
@@ -30,6 +32,7 @@ This packages list is for: {{purpose}}
 |-
 ! style="text-align:left;" scope="row" | {{package.name}}
 ! style="background-color:{{package.cell_color}}"|{% if package.distgit.test_yml %} yes {% else %} - {% endif %} [https://src.fedoraproject.org/rpms/{{package.name}}/tree/master *]
+! style="background-color:{{package.cell_color}}"|{% if package.distgit.gating_yaml %} yes {% else %} - {% endif %} [https://src.fedoraproject.org/rpms/{{package.name}}/tree/master *]
 ! style="background-color:{{package.cell_color}}"|{% if package.distgit.test_tags.classic %} yes {% else %} - {% endif %}
 
 ! style="background-color:{{package.cell_color}}"|{% if package.distgit.test_tags.container %} yes {% else %} - {% endif %}

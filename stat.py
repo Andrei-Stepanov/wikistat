@@ -37,6 +37,7 @@ pkg_template = {'name': '',
                 'distgit': {
                     'package_url': '',
                     'test_yml': '',
+                    'gating_yaml': '',
                     'missing': '',
                     'pending': {'status': '', 'url': '', 'user': {}},
                     'test_tags': {'classic': '', 'container': '', 'atomic': ''}}}
@@ -77,6 +78,7 @@ def get_pkgs_stat():
     stat = {'total': '',
                       'distgit': {
                           'test_yml': '',
+                          'gating_yaml': '',
                           'missing': '',
                           'pending': '',
                           'test_tags': {'classic': '', 'container': '', 'atomic': ''}}}
@@ -84,6 +86,8 @@ def get_pkgs_stat():
     stat['total'] = len(ipkgs)
     total = pkgs_in_cat('distgit', 'test_yml')
     stat['distgit']['test_yml'] = total
+    total = pkgs_in_cat('distgit', 'gating_yaml')
+    stat['distgit']['gating_yaml'] = total
     total = pkgs_in_cat('distgit', 'missing')
     stat['distgit']['missing'] = total
     total = pkgs_in_cat('distgit', 'pending', 'status')
@@ -228,6 +232,26 @@ def get_url_to_test_yml(url, package):
         return
     return test_file_url
 
+def get_url_to_gating_yaml(url, package):
+    """Get url to the gating.yaml file
+
+    Parameters
+    ----------
+    url : str
+        Url, for example: 'https://src.fedoraproject.org/'
+    package : str
+        Name of the package.
+
+    Returns
+    -------
+        Url string.
+    """
+    if 'fedoraproject' in url:
+        gating_file_url = url + 'rpms/' + package + '/blob/master/f/gating.yaml'
+    else:
+        return
+    return gating_file_url
+
 def remote_file_exists(url):
     """Checks if file exists.
 
@@ -335,6 +359,13 @@ def get_pkg_info(pkg):
         info['distgit']['package_url'] = dist_git_url_to_test_yml
     else:
         info['distgit']['test_yml'] = False
+        info['distgit']['package_url'] = ''
+    dist_git_url_to_gating_yaml = get_url_to_gating_yaml(DIST_GIT_URL, pkg)
+    if remote_file_exists(dist_git_url_to_gating_yaml):
+        info['distgit']['gating_yaml'] = True
+        info['distgit']['package_url'] = dist_git_url_to_gating_yaml
+    else:
+        info['distgit']['gating_yaml'] = False
         info['distgit']['package_url'] = ''
 
     #print4('Pkg info: %s' % pprint.pformat(info))
